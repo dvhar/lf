@@ -1,1 +1,35 @@
-/home/d/gits/conf/roles/restore/files/lfrc
+#set previewer ~/.config/lf/pv.sh
+set previewer /opt/lf/pvimg.sh
+set cleaner /opt/lf/preview-image
+
+# leave some space at the top and the bottom of the screen
+set scrolloff 10
+
+map e $/usr/local/bin/nvim $f
+map S $$SHELL
+map D %{{
+	files=""
+	for x in $fx; do
+		files="$files $(basename $x)"
+	done
+	echo "delete ${files}?"
+	read del
+	[ ! "$del" = "y" ] && exit
+	rm -rf $fx;
+}}
+
+#cmd open $nvim $fx
+cmd open ${{
+    case $(file --mime-type $f -b) in
+        text/*) nvim $fx;;
+        image/*) feh $fx;;
+        audio/*) mpv $fx;;
+        video/*) mpv $fx;;
+        application/pdf) zathura $fx & ;;
+        *) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+# execute current file (must be executable)
+map x $$f
+map X !$f
