@@ -5,9 +5,8 @@
 go build
 mkdir -p ~/.config/lf
 cp ./previews/lfrc ~/.config/lf/
-sudo su
-mkdir -p /opt/lf
-cp lf /opt/lf/
-cp ./previews/pvimg.sh /opt/lf/
-cp ./previews/preview-image /opt/lf/
-cp ./previews/lf /usr/local/bin/lf
+sudo mkdir -p /opt/lf
+sudo cp lf /opt/lf/
+sudo cp ./previews/pvimg.sh /opt/lf/
+sudo cp ./previews/preview-image /opt/lf/
+sudo cp ./previews/lf /usr/local/bin/lf
