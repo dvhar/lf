@@ -1,6 +1,6 @@
 #!/usr/bin/sh
 start_ueberzug() {
-    [ -p "$FIFO_UEBERZUG" ] || mkfifo "$FIFO_UEBERZUG" && chmod 666 "$FIFO_UEBERZUG" || exit 1
+    [ -p "$FIFO_UEBERZUG" ] || mkfifo "$FIFO_UEBERZUG" && chmod 600 "$FIFO_UEBERZUG" || exit 1
     ueberzug layer --parser simple --silent < "$FIFO_UEBERZUG" &
     exec 3>"$FIFO_UEBERZUG"
 }
