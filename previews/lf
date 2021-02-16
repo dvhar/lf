@@ -12,8 +12,8 @@ stop_ueberzug() {
 }
 
 if [ -n "$DISPLAY" ] && command -v ueberzug 2>&1 > /dev/null; then
-	export FIFO_UEBERZUG="/tmp/lf-ueberzugfifo"
-	trap stop_ueberzug EXIT QUIT INT TERM
-	start_ueberzug
+    export FIFO_UEBERZUG="/tmp/lf-ueberzugfifo-$USER"
+    trap stop_ueberzug EXIT QUIT INT TERM
+    start_ueberzug
 fi
 /opt/lf/lf "$@"
