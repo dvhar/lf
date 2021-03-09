@@ -8,7 +8,7 @@ set scrolloff 10
 #set dircounts on
 set icons on
 #set mouse on
-set shell zsh #preserve exported filesep unlike sh or bash
+set shell sh
 set filesep "\t"
 
 map e $/usr/local/bin/nvim "$f"
@@ -19,16 +19,16 @@ map D %{{
 	echo "delete selected files?"
 	read del
 	[ ! "$del" = "y" ] && exit
-	eval "rm -rf $(echo $fx | sed 's/ /\\ /g; s/\t/ /g')"
+	eval "rm -rf $(echo \"$fx\" | sed 's/ /\\ /g; s/\t/ /g')"
 }}
 #bulk move
 map M ${{
-	files=$(echo $fx | sed 's/ /\\ /g')
+	files=$(echo "$fx" | sed 's/ /\\ /g')
 	eval "vimv $files"
 }}
 #bulk rename
 map R ${{
-	files=$(echo $fx | sed "s/ /\\\\ /g; s/$(pwd)//g")
+	files=$(echo "$fx" | sed "s/ /\\\\ /g; s/$(pwd)//g")
 	eval "vimv $files"
 }}
 
