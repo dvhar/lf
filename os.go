@@ -94,18 +94,6 @@ func detachedCommand(name string, arg ...string) *exec.Cmd {
 	return cmd
 }
 
-func pauseCommand() *exec.Cmd {
-	cmd := `echo
-	        echo -n 'Press any key to continue'
-	        old=$(stty -g)
-	        stty raw -echo
-	        eval "ignore=\$(dd bs=1 count=1 2> /dev/null)"
-	        stty $old
-	        echo`
-
-	return exec.Command(gOpts.shell, "-c", cmd)
-}
-
 func shellCommand(s string, args []string) *exec.Cmd {
 	if len(gOpts.ifs) != 0 {
 		s = fmt.Sprintf("IFS='%s'; %s", gOpts.ifs, s)
@@ -143,6 +131,31 @@ func isHidden(f os.FileInfo, path string, hiddenfiles []string) bool {
 		}
 	}
 	return hidden
+}
+
+func userName(f os.FileInfo) string {
+	if stat, ok := f.Sys().(*syscall.Stat_t); ok {
+		if u, err := user.LookupId(fmt.Sprint(stat.Uid)); err == nil {
+			return fmt.Sprintf("%v ", u.Username)
+		}
+	}
+	return ""
+}
+
+func groupName(f os.FileInfo) string {
+	if stat, ok := f.Sys().(*syscall.Stat_t); ok {
+		if g, err := user.LookupGroupId(fmt.Sprint(stat.Gid)); err == nil {
+			return fmt.Sprintf("%v ", g.Name)
+		}
+	}
+	return ""
+}
+
+func linkCount(f os.FileInfo) string {
+	if stat, ok := f.Sys().(*syscall.Stat_t); ok {
+		return fmt.Sprintf("%v ", stat.Nlink)
+	}
+	return ""
 }
 
 func matchPattern(pattern, name, path string) bool {

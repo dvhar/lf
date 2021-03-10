@@ -76,10 +76,6 @@ func detachedCommand(name string, arg ...string) *exec.Cmd {
 	return cmd
 }
 
-func pauseCommand() *exec.Cmd {
-	return exec.Command("cmd", "/c", "pause")
-}
-
 func shellCommand(s string, args []string) *exec.Cmd {
 	args = append([]string{"/c", s}, args...)
 
@@ -119,6 +115,18 @@ func isHidden(f os.FileInfo, path string, hiddenfiles []string) bool {
 		return false
 	}
 	return attrs&syscall.FILE_ATTRIBUTE_HIDDEN != 0
+}
+
+func userName(f os.FileInfo) string {
+	return ""
+}
+
+func groupName(f os.FileInfo) string {
+	return ""
+}
+
+func linkCount(f os.FileInfo) string {
+	return ""
 }
 
 func errCrossDevice(err error) bool {

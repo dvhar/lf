@@ -310,6 +310,10 @@ func (e *setExpr) eval(app *app, args []string) {
 	case "shell":
 		gOpts.shell = e.val
 	case "shellopts":
+		if e.val == "" {
+			gOpts.shellopts = nil
+			return
+		}
 		gOpts.shellopts = strings.Split(e.val, ":")
 	case "sortby":
 		switch e.val {
@@ -1328,13 +1332,13 @@ func (e *callExpr) eval(app *app, args []string) {
 					return
 				}
 
-				oldStat, err := os.Stat(oldPath)
+				oldStat, err := os.Lstat(oldPath)
 				if err != nil {
 					app.ui.echoerrf("rename: %s", err)
 					return
 				}
 
-				if newStat, err := os.Stat(newPath); !os.IsNotExist(err) && !os.SameFile(oldStat, newStat) {
+				if newStat, err := os.Lstat(newPath); !os.IsNotExist(err) && !os.SameFile(oldStat, newStat) {
 					app.ui.cmdPrefix = "replace '" + newPath + "' ? [y/N] "
 					return
 				}

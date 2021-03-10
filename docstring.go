@@ -683,10 +683,9 @@ beginning or end of the list to show the maximum number of items.
 
     shell          string    (default 'sh' for unix and 'cmd' for windows)
 
-Shell executable to use for shell commands. On unix, a POSIX compatible
-shell is required. Shell commands are executed as 'shell shellopts -c
-command -- arguments'. On windows, '/c' is used instead of '-c' which should
-work in 'cmd' and 'powershell'.
+Shell executable to use for shell commands. Shell commands are executed as
+'shell shellopts -c command -- arguments'. On windows, '/c' is used instead
+of '-c' which should work in 'cmd' and 'powershell'.
 
     shellopts      []string  (default '')
 
@@ -1137,8 +1136,8 @@ ruler. These commands do not overwrite existing files or directories with
 the same name. Instead, a suffix that is compatible with '--backup=numbered'
 option in GNU cp is added to the new files or directories. Only file modes
 are preserved and all other attributes are ignored including ownership,
-timestamps, context, links, and xattr. Special files such as character and
-block devices, named pipes, and sockets are skipped and links are followed.
+timestamps, context, and xattr. Special files such as character and block
+devices, named pipes, and sockets are skipped and links are not followed.
 Moving is performed using the rename operation of the underlying OS. For
 cross-device moving, lf falls back to copying and then deletes the original
 files if there are no errors. Operation errors are shown in the message line
