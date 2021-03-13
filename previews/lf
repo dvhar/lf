@@ -7,7 +7,7 @@ start_ueberzug() {
 }
 
 stop_ueberzug() {
-	exec 3>&-
+	#exec 3>&-
 	kill $upid
 }
 
