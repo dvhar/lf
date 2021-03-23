@@ -15,12 +15,8 @@ map e $/usr/local/bin/nvim "$f"
 map S $$SHELL
 
 #bulk delete
-map D %{{
-	echo "delete selected files?"
-	read del
-	[ ! "$del" = "y" ] && exit
-	eval "rm -rf $(echo $fx | sed 's/ /\\ /g; s/\t/ /g')"
-}}
+map f delete
+
 #bulk move
 map M ${{
 	files=$(echo $fx | sed 's/ /\\ /g')
