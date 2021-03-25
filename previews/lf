@@ -1,19 +1,18 @@
-#!/usr/bin/sh
-start_ueberzug() {
-	[ -p "$FIFO_UEBERZUG" ] || mkfifo "$FIFO_UEBERZUG" && chmod 600 "$FIFO_UEBERZUG" || exit 1
-	ueberzug layer --parser simple --silent < "$FIFO_UEBERZUG" &
-	upid="$!"
+#!/usr/bin/env bash
+set -e
+
+cleanup() {
+    exec 3>&-
+	rm "$FIFO_UEBERZUG"
+}
+
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+	/opt/lf/lf $@
+else
+	export FIFO_UEBERZUG="/tmp/lf-ueberzug-$$"
+	mkfifo "$FIFO_UEBERZUG"
+	ueberzug layer -s <"$FIFO_UEBERZUG" -p bash &
 	exec 3>"$FIFO_UEBERZUG"
-}
-
-stop_ueberzug() {
-	#exec 3>&-
-	kill $upid
-}
-
-if [ -n "$DISPLAY" ] && command -v ueberzug 2>&1 > /dev/null; then
-    export FIFO_UEBERZUG="/tmp/lf-ueberzugfifo-$USER"
-    trap stop_ueberzug EXIT QUIT INT TERM
-    start_ueberzug
+	trap cleanup EXIT
+	/opt/lf/lf "$@" 3>&-
 fi
-/opt/lf/lf "$@"
