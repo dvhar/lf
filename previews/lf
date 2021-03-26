@@ -13,6 +13,6 @@ else
 	mkfifo "$FIFO_UEBERZUG"
 	ueberzug layer -s <"$FIFO_UEBERZUG" -p bash &
 	exec 3>"$FIFO_UEBERZUG"
-	trap cleanup EXIT
+	trap cleanup EXIT QUIT INT TERM
 	/opt/lf/lf "$@" 3>&-
 fi

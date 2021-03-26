@@ -23,11 +23,10 @@ map M ${{
 }}
 #bulk rename
 map R ${{
-	files=$(echo $fx | sed "s/ /\\\\ /g; s/$(pwd)//g")
+	files=$(echo $fx | sed "s/ /\\\\ /g; s:$(pwd)/::g")
 	eval "vimv $files"
 }}
 
-#cmd open $nvim $fx
 cmd open ${{
     case $(file --mime-type "$f" -b) in
         text/*) nvim "$fx";;
