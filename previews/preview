@@ -18,8 +18,7 @@ image() {
 
 CACHE="$HOME/.cache/lf/thumbnail.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | awk '{print $1}'))"
 
-lower="$(printf '%s\n' "${1,,}")"
-case "$lower" in
+case "${1,,}" in
 	*.tgz|*.tar.gz) tar tzf "$1" ;;
 	*.tar.bz2|*.tbz2) tar tjf "$1" ;;
 	*.tar.txz|*.txz) xz --list "$1" ;;

@@ -23,7 +23,7 @@ map M ${{
 }}
 #bulk rename
 map R ${{
-	files=$(echo $fx | sed -r 's/( |\[|\]|\(|\))/\\&/g' | sed "s:$(pwd)/::g")
+	files=$(echo $fx | sed -r 's/( |\[|\]|\(|\))/\\&/g'";s:$PWD/::g")
 	eval "vimv $files"
 }}
 
