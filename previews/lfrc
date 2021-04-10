@@ -5,7 +5,7 @@ set cleaner /opt/lf/cleaner
 set scrolloff 10
 #set drawbox on
 #set dircounts on
-set icons on
+#set icons on
 #set mouse on
 set shell zsh
 set filesep "\t"
@@ -18,12 +18,12 @@ map f delete
 
 #bulk move
 map M ${{
-	files=$(echo $fx | sed 's/ /\\ /g')
+	files=$(echo $fx | sed -r 's/( |\[|\]|\(|\))/\\&/g')
 	eval "vimv $files"
 }}
 #bulk rename
 map R ${{
-	files=$(echo $fx | sed "s/ /\\\\ /g; s:$(pwd)/::g")
+	files=$(echo $fx | sed -r 's/( |\[|\]|\(|\))/\\&/g' | sed "s:$(pwd)/::g")
 	eval "vimv $files"
 }}
 
@@ -39,13 +39,13 @@ cmd open ${{
 }}
 
 map <m-1> ${{
-    case $(file --mime-type "$f" -b) in
+    case $(file --mime-type "$fx" -b) in
         text/*) nvim "$fx";;
         image/*) feh "$fx";;
         audio/*) mpv "$fx";;
         video/*) mpv "$fx";;
         application/pdf) zathura "$fx" & ;;
-        *) for f in $fx; do $OPENER "$f" > /dev/null 2> /dev/null & done;;
+        *) for f in $fx; do $OPENER "$fx" > /dev/null 2> /dev/null & done;;
     esac
 }}
 
