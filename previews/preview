@@ -9,7 +9,7 @@ image() {
 	if [ ! -z "$DISPLAY" ]; then
 		declare -p -A cmd=([action]=add [identifier]="PREVIEW" \
 			[x]="$2" [y]="$3" [max_width]="$4" [max_height]="$5" \
-			[path]="$1") > "$FIFO_UEBERZUG"
+			[scaler]=fit_contain [path]="$1") > "$FIFO_UEBERZUG"
 		exit 1
 	else
 		chafa "$1" -s ${4}x${5}
