@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Calculate where the image should be placed on the screen.
 num=$(printf "%0.f\n" "`echo "$(tput cols) / 2" | bc`")
@@ -18,7 +18,8 @@ image() {
 
 CACHE="$HOME/.cache/lf/thumbnail.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | awk '{print $1}'))"
 
-case "$1" in
+lower="$(printf '%s\n' "${1,,}")"
+case "$lower" in
 	*.tgz|*.tar.gz) tar tzf "$1" ;;
 	*.tar.bz2|*.tbz2) tar tjf "$1" ;;
 	*.tar.txz|*.txz) xz --list "$1" ;;
@@ -54,7 +55,7 @@ case "$1" in
 			ffmpegthumbnailer -i "$1" -o "${CACHE}.jpg" -s 0 -q 5
 		image "${CACHE}.jpg" $num 1 $numb $numc
 		;;
-	*.bmp|*.jpg|*.jpeg|*.png|*.xpm|*.webp)
+	*.gif|*.bmp|*.jpg|*.jpeg|*.png|*.xpm|*.webp)
 		image "$1" $num 1 $numb $numc
 		;;
 	*)
