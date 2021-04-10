@@ -42,6 +42,7 @@ var gOpts struct {
 	relativenumber bool
 	smartcase      bool
 	smartdia       bool
+	waitmsg        string
 	wrapscan       bool
 	wrapscroll     bool
 	findlen        int
@@ -55,6 +56,7 @@ var gOpts struct {
 	cleaner        string
 	promptfmt      string
 	shell          string
+	shellflag      string
 	timefmt        string
 	truncatechar   string
 	ratios         []int
@@ -82,6 +84,7 @@ func init() {
 	gOpts.relativenumber = false
 	gOpts.smartcase = true
 	gOpts.smartdia = false
+	gOpts.waitmsg = "Press any key to continue"
 	gOpts.wrapscan = true
 	gOpts.wrapscroll = false
 	gOpts.findlen = 1
@@ -95,6 +98,7 @@ func init() {
 	gOpts.cleaner = ""
 	gOpts.promptfmt = "\033[32;1m%u@%h\033[0m:\033[34;1m%d\033[0m\033[1m%f\033[0m"
 	gOpts.shell = gDefaultShell
+	gOpts.shellflag = gDefaultShellFlag
 	gOpts.timefmt = time.ANSIC
 	gOpts.truncatechar = "~"
 	gOpts.ratios = []int{1, 2, 3}

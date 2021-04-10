@@ -126,6 +126,7 @@ The following options can be used to customize the behavior of lf:
     reverse        bool      (default off)
     scrolloff      int       (default 0)
     shell          string    (default 'sh' for unix and 'cmd' for windows)
+    shellflag      string    (default '-c' for unix and '/c' for windows)
     shellopts      []string  (default '')
     smartcase      bool      (default on)
     smartdia       bool      (default off)
@@ -133,6 +134,7 @@ The following options can be used to customize the behavior of lf:
     tabstop        int       (default 8)
     timefmt        string    (default 'Mon Jan _2 15:04:05 2006')
     truncatechar   string    (default '~')
+    waitmsg        string    (default 'Press any key to continue')
     wrapscan       bool      (default on)
     wrapscroll     bool      (default off)
 
@@ -641,8 +643,11 @@ A smaller offset can be used when the current file is close to the beginning or 
     shell          string    (default 'sh' for unix and 'cmd' for windows)
 
 Shell executable to use for shell commands.
-Shell commands are executed as 'shell shellopts -c command -- arguments'.
-On windows, '/c' is used instead of '-c' which should work in 'cmd' and 'powershell'.
+Shell commands are executed as 'shell shellopts shellflag command -- arguments'.
+
+    shellflag      string    (default '-c' for unix and '/c' for windows)
+
+Command line flag used to pass shell commands.
 
     shellopts      []string  (default '')
 
@@ -674,6 +679,10 @@ Format string of the file modification time shown in the bottom line.
     truncatechar   string    (default '~')
 
 Truncate character shown at the end when the file name does not fit to the pane.
+
+    waitmsg        string    (default 'Press any key to continue')
+
+String shown after commands of shell-wait type.
 
     wrapscan       bool      (default on)
 

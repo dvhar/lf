@@ -178,6 +178,8 @@ func (e *setExpr) eval(app *app, args []string) {
 		gOpts.smartdia = false
 	case "smartdia!":
 		gOpts.smartdia = !gOpts.smartdia
+	case "waitmsg":
+		gOpts.waitmsg = e.val
 	case "wrapscan":
 		gOpts.wrapscan = true
 	case "nowrapscan":
@@ -309,6 +311,8 @@ func (e *setExpr) eval(app *app, args []string) {
 		app.ui.loadFile(app.nav, true)
 	case "shell":
 		gOpts.shell = e.val
+	case "shellflag":
+		gOpts.shellflag = e.val
 	case "shellopts":
 		if e.val == "" {
 			gOpts.shellopts = nil
@@ -1231,8 +1235,6 @@ func (e *callExpr) eval(app *app, args []string) {
 		app.ui.menuBuf = nil
 		app.ui.menuSelected = -2
 
-		app.ui.cmdAccLeft = nil
-		app.ui.cmdAccRight = nil
 		app.ui.cmdTmp = nil
 
 		switch app.ui.cmdPrefix {
@@ -1356,9 +1358,16 @@ func (e *callExpr) eval(app *app, args []string) {
 				app.ui.loadFile(app.nav, true)
 				app.ui.loadFileInfo(app.nav)
 			}
+		case "find: ", "find-back: ":
+			oldlen := gOpts.findlen
+			gOpts.findlen = len(s)
+			insert(app, "")
+			gOpts.findlen = oldlen
 		default:
 			log.Printf("entering unknown execution prefix: %q", app.ui.cmdPrefix)
 		}
+		app.ui.cmdAccLeft = nil
+		app.ui.cmdAccRight = nil
 	case "cmd-history-next":
 		if app.ui.cmdPrefix == "" || app.ui.cmdPrefix == ">" {
 			return

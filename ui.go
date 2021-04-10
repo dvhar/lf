@@ -1144,22 +1144,23 @@ func (ui *ui) readExpr() {
 	}()
 }
 
-func (ui *ui) suspend() {
-	ui.screen.Suspend()
+func (ui *ui) suspend() error {
+	return ui.screen.Suspend()
 }
 
-func (ui *ui) resume() {
-	ui.screen.Resume()
+func (ui *ui) resume() error {
+	return ui.screen.Resume()
 }
 
 func anyKey() {
+	fmt.Print(gOpts.waitmsg)
+	defer fmt.Print("\n")
 	oldState, err := term.MakeRaw(int(os.Stdin.Fd()))
 	if err != nil {
 		panic(err)
 	}
 	defer term.Restore(int(os.Stdin.Fd()), oldState)
 
-	fmt.Print("Press any key to continue")
 	b := make([]byte, 1)
 	os.Stdin.Read(b)
 }
